@@ -76,7 +76,6 @@ class StreamSwitch(DefaultIP):
                 Consumer 0 will be routed to Producer 3
                 Producer 0 is disabled
         """
-
         return self._pi
 
     @pi.setter
