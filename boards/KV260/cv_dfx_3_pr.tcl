@@ -3467,7 +3467,7 @@ launch_runs child_4_impl_1 -to_step write_bitstream -jobs 4
 wait_on_run child_4_impl_1
 
 # create bitstreams directory
-set dest_dir "./overlay_3"
+set dest_dir "./overlay"
 exec mkdir $dest_dir -p
 set bithier "${design_name}_i_composable"
 
