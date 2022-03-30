@@ -107,7 +107,7 @@ if { $list_projs eq "" } {
 
 # Set IP repo
 set_property ip_repo_paths "./../Pynq-ZU/ip/ ../ip/boards/ip" [current_project]
-set_property ip_repo_paths "../../../PYNQ_Composable_Pipeline/boards/Pynq-ZU/ip/ ../../../PYNQ_Composable_Pipeline/boards/ip"  [current_project]
+#set_property ip_repo_paths "../../../PYNQ_Composable_Pipeline/boards/Pynq-ZU/ip/ ../../../PYNQ_Composable_Pipeline/boards/ip"  [current_project]
 update_ip_catalog
 
 # Add constraints files
@@ -224,6 +224,7 @@ xilinx.com:hls:fast_accel:1.0\
 xilinx.com:hls:dilate_accel:1.0\
 xilinx.com:hls:erode_accel:1.0\
 xilinx.com:hls:rgb2xyz_accel:1.0\
+xilinx.com:ip:util_ds_buf:2.2\
 "
 
    set list_ips_missing ""
@@ -1859,19 +1860,19 @@ proc create_hier_cell_composable { parentCell nameHier } {
  ] $axis_switch
 
   # Create instance: clk_buf_rp0, and set properties
-  set clk_buf_rp0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf:2.1 clk_buf_rp0 ]
+  set clk_buf_rp0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf:2.2 clk_buf_rp0 ]
   set_property -dict [ list \
    CONFIG.C_BUF_TYPE {BUFG} \
  ] $clk_buf_rp0
 
   # Create instance: clk_buf_rp1, and set properties
-  set clk_buf_rp1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf:2.1 clk_buf_rp1 ]
+  set clk_buf_rp1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf:2.2 clk_buf_rp1 ]
   set_property -dict [ list \
    CONFIG.C_BUF_TYPE {BUFG} \
  ] $clk_buf_rp1
 
   # Create instance: clk_buf_rp2, and set properties
-  set clk_buf_rp2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf:2.1 clk_buf_rp2 ]
+  set clk_buf_rp2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf:2.2 clk_buf_rp2 ]
   set_property -dict [ list \
    CONFIG.C_BUF_TYPE {BUFG} \
  ] $clk_buf_rp2
