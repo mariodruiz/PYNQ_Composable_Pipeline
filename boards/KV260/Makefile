@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: BSD-3-Clause
 
-overlay_name := cv_dfx_4_pr
+overlay_name := cv_dfx_3_pr
 
 all: vision_ip pynq_hls project dtbo dict version
 	@echo
