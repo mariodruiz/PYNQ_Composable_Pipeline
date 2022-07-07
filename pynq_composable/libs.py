@@ -718,3 +718,106 @@ class MultiplyIP(VitisVisionIP):
 
         self._scale = float(scale)
         self.write(0x20, _float2int(self.scale))
+
+video_mixer_regs = {
+    'CTRL':
+        {'address_offset': 0, 'size': 32, 'access': 'read-write', 'description': 'Control signals', 'fields': {
+            'ap_start': {'bit_offset': 0, 'bit_width': 1, 'description': 'Control signals', 'access': 'read-write'},
+            'ap_done': {'bit_offset': 1, 'bit_width': 1, 'description': 'Control signals', 'access': 'read-only'},
+            'ap_idle': {'bit_offset': 2, 'bit_width': 1, 'description': 'Control signals', 'access': 'read-only'},
+            'ap_ready': {'bit_offset': 3, 'bit_width': 1, 'description': 'Control signals', 'access': 'read-only'},
+            'flush_pending': {'bit_offset': 5, 'bit_width': 1, 'description': 'Flush pending AXI transactions', 'access': 'read-write'},
+            'flush_done': {'bit_offset': 6, 'bit_width': 1, 'description': 'Flush Done', 'access': 'read-only'},
+            'auto_restart': {'bit_offset': 7, 'bit_width': 1, 'description': 'Control signals', 'access': 'read-write'}}
+        },
+    'GIER': {'address_offset': 4, 'size': 32, 'access': 'read-write', 'description': 'Global Interrupt Enable Register', 'fields': {
+        'Enable': {'bit_offset': 0, 'bit_width': 1, 'description': 'Global Interrupt Enable Register', 'access': 'read-write'}}
+    },
+    'IP_IER': {'address_offset': 8, 'size': 32, 'access': 'read-write', 'description': 'IP Interrupt Enable Register', 'fields': {
+        'ap_done': {'bit_offset': 0, 'bit_width': 1, 'description': 'IP Interrupt Enable Register', 'access': 'read-write'},
+        'ap_ready': {'bit_offset': 1, 'bit_width': 1, 'description': 'IP Interrupt Enable Register', 'access': 'read-write'}}
+    },
+    'IP_ISR': {'address_offset': 12, 'size': 32, 'access': 'read-write', 'description': 'IP Interrupt Status Register', 'fields': {
+        'ap_done': {'bit_offset': 0, 'bit_width': 1, 'description': 'IP Interrupt Status Register', 'access': 'read-only'},
+        'ap_ready': {'bit_offset': 1, 'bit_width': 1, 'description': 'IP Interrupt Status Register', 'access': 'read-only'}}
+    },
+    'Width': {'address_offset': 16, 'size': 32, 'access': 'read-write', 'description': 'Active width of background'},
+    'Height': {'address_offset': 24, 'size': 32, 'access': 'read-write', 'description': 'Active height of background'},
+    'background_r_or_y': {'address_offset': 40, 'size': 32, 'access': 'read-write', 'description': 'Red or Y value of background color'},
+    'background_u_or_g': {'address_offset': 48, 'size': 32, 'access': 'read-write', 'description': 'Green or U value of background color'},
+    'background_g_or_u': {'address_offset': 56, 'size': 32, 'access': 'read-write', 'description': 'Blue or V value of background color'},
+    'layer_enabled': {'address_offset': 64, 'size': 32, 'access': 'read-write', 'description': 'Layer enable', 'fields': {
+        'master_layer': {'bit_offset': 0, 'bit_width': 1, 'description': 'Master layer is enabled/disabled', 'access': 'read-write'},
+        'overlay_layer_1': {'bit_offset': 1, 'bit_width': 1, 'description': 'Overlay Layer 1 is enabled/disabled', 'access': 'read-write'},
+        'logo_layer': {'bit_offset': 23, 'bit_width': 1, 'description': 'Logo layer is enabled/disabled', 'access': 'read-write'}
+    }},
+
+    'layer_1_alpha': {'address_offset': 512, 'size': 32, 'access': 'read-write', 'description': 'Alpha blending value for layer 1'},
+    'layer_1_start_x': {'address_offset': 520, 'size': 32, 'access': 'read-write', 'description': 'X position of the top left corner of layer 1, relative to the background layer'},
+    'layer_1_start_y': {'address_offset': 528, 'size': 32, 'access': 'read-write', 'description': 'Y position of the top left corner of layer 1, relative to the background layer'},
+    'layer_1_width': {'address_offset': 536, 'size': 32, 'access': 'read-write', 'description': 'Active width (in pixels) of layer 1'},
+    'layer_1_stride': {'address_offset': 544, 'size': 32, 'access': 'read-write', 'description': 'Active stride (in bytes) of layer 1'},
+    'layer_1_height': {'address_offset': 552, 'size': 32, 'access': 'read-write', 'description': 'Active height  (in lines) of layer 1'},
+    'layer_1_scale_factor': {'address_offset': 560, 'size': 32, 'access': 'read-write', 'description': 'Scale factor for layer 1'},
+    'layer_1_plane_1_buffer': {'address_offset': 576, 'size': 32, 'access': 'read-write', 'description': 'Start address of plane 1 of frame buffer for layer 1'}
+}
+
+from pynq import allocate
+import cv2
+
+class VideoMixer(DefaultIP):
+    """Video Mixer"""
+
+    bindto = ['xilinx.com:ip:v_mix:5.2']
+
+    def __init__(self, description):
+        description['registers'] = video_mixer_regs
+        super().__init__(description=description)
+
+    def start(self):
+        """Populate the image resolution and start the IP"""
+        file = "/tmp/resolution.json"
+        if os.path.exists(file):
+            with open(file, "r", encoding='utf8') as f:
+                reso = json.load(f)
+                self._cols, self._rows = reso["width"], reso["height"]
+        else:
+            self._cols, self._rows = _cols, _rows
+        self.write(16, int(self._cols))
+        self.write(24, int(self._rows))
+        self.register_map.layer_enabled.master_layer = 1
+        self.write(0x00, 0x81)
+
+    def overlay_1(self, filename, scale:int=0):
+        """This one is almost working"""
+        img = cv2.imread(filename)[:,:, [2, 0,1]]
+        self.logo = allocate(img.shape, dtype=np.uint8)
+        self.logo[:] = img[:]
+        self.register_map.layer_1_alpha = 200
+        self.register_map.layer_1_start_x = 100
+        self.register_map.layer_1_start_y = 200
+        self.register_map.layer_1_width = img.shape[1] * (2**scale)
+        self.register_map.layer_1_height = img.shape[0] * (2**scale)
+        self.register_map.layer_1_stride = img.shape[1] * img.shape[2]
+        self.register_map.layer_1_scale_factor = int(scale)
+        self.register_map.layer_1_plane_1_buffer = self.logo.physical_address
+        self.register_map.layer_enabled.overlay_layer_1 = 1
+
+    def overlay_1_with_extra_channel(self, filename, scale:int=0):
+        """This one is working"""
+        img = cv2.imread(filename)[:,:, [2, 0,1]]
+        rgba = cv2.cvtColor(img, cv2.COLOR_RGB2RGBA)
+        self.logo = allocate(rgba.shape, dtype=np.uint8)
+        self.logo[:] = rgba[:]
+        self.register_map.layer_1_alpha = 200
+        self.register_map.layer_1_start_x = 100
+        self.register_map.layer_1_start_y = 200
+        self.register_map.layer_1_width = rgba.shape[1] * (2**scale)
+        self.register_map.layer_1_height = rgba.shape[0] * (2**scale)
+        self.register_map.layer_1_stride = rgba.shape[1] * rgba.shape[2]
+        self.register_map.layer_1_scale_factor = int(scale)
+        self.register_map.layer_1_plane_1_buffer = self.logo.physical_address
+        self.register_map.layer_enabled.overlay_layer_1 = 1
+
+    def disable_overlays(self):
+        self.register_map.layer_enabled = 0x1
