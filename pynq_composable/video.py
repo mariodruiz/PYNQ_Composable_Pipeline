@@ -39,6 +39,27 @@ class VSink(Enum):
     DP = auto()
 
 
+class _WebcamResolution(Enum):
+    full_hd = (1920, 1080)
+    hd = (1280, 720)
+    sd = (640, 480)
+
+
+def _get_max_resolution(filename: int) -> tuple:
+    videoIn = cv2.VideoCapture(filename + cv2.CAP_V4L2)
+    for r in _WebcamResolution:
+        videoIn.set(cv2.CAP_PROP_FRAME_WIDTH, r.value[0])
+        videoIn.set(cv2.CAP_PROP_FRAME_HEIGHT, r.value[1])
+        width = int(videoIn.get(cv2.CAP_PROP_FRAME_WIDTH))
+        height = int(videoIn.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        if (width, height) == r.value:
+            videoIn.release()
+            return r.value
+
+    videoIn.release()
+    return None
+
+
 class _DisplayPort(DrmDriver):
     """Subclass of DisplayPort that works in a thread"""
 
