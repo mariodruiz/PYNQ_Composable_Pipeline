@@ -64,7 +64,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2022.1
+set scripts_vivado_version 2022.2
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -210,7 +210,7 @@ xilinx.com:ip:axi_vdma:6.3\
 xilinx.com:ip:axis_subset_converter:1.1\
 xilinx.com:ip:v_demosaic:1.1\
 xilinx.com:ip:v_gamma_lut:1.1\
-xilinx.com:ip:mipi_csi2_rx_subsystem:5.1\
+xilinx.com:ip:mipi_csi2_rx_subsystem:5.2\
 xilinx.com:hls:pixel_pack_2:1.0\
 xilinx.com:ip:v_proc_ss:2.3\
 xilinx.com:hls:pixel_unpack_2:1.0\
@@ -1008,7 +1008,7 @@ proc create_hier_cell_mipi { parentCell nameHier } {
  ] $gpio_ip_reset
 
   # Create instance: mipi_csi2_rx_subsyst, and set properties
-  set mipi_csi2_rx_subsyst [ create_bd_cell -type ip -vlnv xilinx.com:ip:mipi_csi2_rx_subsystem:5.1 mipi_csi2_rx_subsyst ]
+  set mipi_csi2_rx_subsyst [ create_bd_cell -type ip -vlnv xilinx.com:ip:mipi_csi2_rx_subsystem:5.2 mipi_csi2_rx_subsyst ]
   set_property -dict [ list \
    CONFIG.CLK_LANE_IO_LOC {D7} \
    CONFIG.CLK_LANE_IO_LOC_NAME {IO_L13P_T2L_N0_GC_QBC_66} \
