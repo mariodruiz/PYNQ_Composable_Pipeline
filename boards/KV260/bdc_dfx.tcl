@@ -388,6 +388,7 @@ add_files -norecurse ./${prj_name}/${prj_name}.srcs/sources_1/bd/${design_name}/
 set_property top ${design_name}_wrapper [current_fileset]
 update_compile_order -fileset sources_1
 
+
 # Create configurations and run the implementation
 create_pr_configuration -name config_1 -partitions \
    [list \
@@ -396,32 +397,18 @@ create_pr_configuration -name config_1 -partitions \
       ${design_name}_i/composable/pr_2:${pr_2_subtract}_inst_0\
    ]
 
-create_pr_configuration -name config_2 -partitions \
-   [list \
-      ${design_name}_i/composable/pr_0:${pr_0_fast_fifo}_inst_0 \
-      ${design_name}_i/composable/pr_1:${pr_1_cornerharris}_inst_0 \
-      ${design_name}_i/composable/pr_2:${pr_2_absdiff}_inst_0\
-   ]
-
-create_pr_configuration -name config_3 -partitions \
-   [list \
-      ${design_name}_i/composable/pr_0:${pr_0_filter2d_fifo}_inst_0 \
-      ${design_name}_i/composable/pr_1:${pr_1_rgb2xyz}_inst_0 \
-      ${design_name}_i/composable/pr_2:${pr_2_add}_inst_0 \
-   ]
-
-create_pr_configuration -name config_4 -partitions \
-   [list \
-      ${design_name}_i/composable/pr_2:${pr_2_bitwise}_inst_0 \
-   ] -greyboxes [list \
-      ${design_name}_i/composable/pr_0 \
-      ${design_name}_i/composable/pr_1 \
-   ]
-
+# Set PR Configuration property
 set_property PR_CONFIGURATION config_1 [get_runs impl_1]
-create_run child_0_impl_1 -parent_run impl_1 -flow {Vivado Implementation 2022} -strategy Performance_NetDelay_low -pr_config config_2
-create_run child_1_impl_1 -parent_run impl_1 -flow {Vivado Implementation 2022} -strategy Performance_NetDelay_low -pr_config config_3
-create_run child_2_impl_1 -parent_run impl_1 -flow {Vivado Implementation 2022} -strategy Performance_NetDelay_low -pr_config config_4
+# Enable Abstract Shell
+set_property DFX_MODE {ABSTRACT SHELL} [get_runs impl_1]
+
+create_run child_0_impl_1 -parent_run impl_1 -flow {Vivado Implementation 2022} -rm_instance ${design_name}_i/composable/pr_0:${pr_0_fast_fifo}_inst_0
+create_run child_1_impl_1 -parent_run impl_1 -flow {Vivado Implementation 2022} -rm_instance ${design_name}_i/composable/pr_1:${pr_1_cornerharris}_inst_0
+create_run child_2_impl_1 -parent_run impl_1 -flow {Vivado Implementation 2022} -rm_instance ${design_name}_i/composable/pr_2:${pr_2_absdiff}_inst_0
+create_run child_3_impl_1 -parent_run impl_1 -flow {Vivado Implementation 2022} -rm_instance ${design_name}_i/composable/pr_0:${pr_0_filter2d_fifo}_inst_0
+create_run child_4_impl_1 -parent_run impl_1 -flow {Vivado Implementation 2022} -rm_instance ${design_name}_i/composable/pr_1:${pr_1_rgb2xyz}_inst_0
+create_run child_5_impl_1 -parent_run impl_1 -flow {Vivado Implementation 2022} -rm_instance ${design_name}_i/composable/pr_2:${pr_2_add}_inst_0
+create_run child_6_impl_1 -parent_run impl_1 -flow {Vivado Implementation 2022} -rm_instance ${design_name}_i/composable/pr_2:${pr_2_bitwise}_inst_0
 
 # Change global implementation strategy
 set_property strategy Performance_Explore [get_runs impl_1]
@@ -429,11 +416,14 @@ set_property report_strategy {UltraFast Design Methodology Reports} [get_runs im
 
 launch_runs impl_1 -to_step write_bitstream -jobs 16
 wait_on_run impl_1
-launch_runs child_0_impl_1 -to_step write_bitstream -jobs 16
+launch_runs child_0_impl_1 child_1_impl_1 child_2_impl_1 child_3_impl_1 child_4_impl_1 child_5_impl_1 child_6_impl_1 -to_step write_bitstream -jobs 16
 wait_on_run child_0_impl_1
-launch_runs child_1_impl_1 child_2_impl_1 -to_step write_bitstream -jobs 16
 wait_on_run child_1_impl_1
 wait_on_run child_2_impl_1
+wait_on_run child_3_impl_1
+wait_on_run child_4_impl_1
+wait_on_run child_5_impl_1
+wait_on_run child_6_impl_1
 
 # create bitstreams directory
 set dest_dir "./overlay"
@@ -452,13 +442,12 @@ catch {exec cp ./${prj_name}/${prj_name}.runs/impl_1/${bithier}_pr_0_${pr_0_dila
 catch {exec cp ./${prj_name}/${prj_name}.runs/impl_1/${bithier}_pr_2_${pr_2_subtract}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_2_subtract}_partial.bit}
 catch {exec cp ./${prj_name}/${prj_name}.runs/impl_1/${bithier}_pr_1_${pr_1_dilate_erode}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_1_dilate_erode}_partial.bit}
 catch {exec cp ./${prj_name}/${prj_name}.runs/impl_1/${design_name}_wrapper.bit ./${dest_dir}/${prj_name}.bit}
-# child_0_impl_1
+
+# Reconfigurable modules generated out of the Abstract shell
 catch {exec cp ./${prj_name}/${prj_name}.runs/child_0_impl_1/${bithier}_pr_0_${pr_0_fast_fifo}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_0_fast_fifo}_partial.bit}
-catch {exec cp ./${prj_name}/${prj_name}.runs/child_0_impl_1/${bithier}_pr_1_${pr_1_cornerharris}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_1_cornerharris}_partial.bit}
-catch {exec cp ./${prj_name}/${prj_name}.runs/child_0_impl_1/${bithier}_pr_2_${pr_2_absdiff}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_2_absdiff}_partial.bit}
-# child_1_impl_1
-catch {exec cp ./${prj_name}/${prj_name}.runs/child_1_impl_1/${bithier}_pr_0_${pr_0_filter2d_fifo}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_0_filter2d_fifo}_partial.bit}
-catch {exec cp ./${prj_name}/${prj_name}.runs/child_1_impl_1/${bithier}_pr_1_${pr_1_rgb2xyz}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_1_rgb2xyz}_partial.bit}
-catch {exec cp ./${prj_name}/${prj_name}.runs/child_1_impl_1/${bithier}_pr_2_${pr_2_add}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_2_add}_partial.bit}
-# child_2_impl_1
-catch {exec cp ./${prj_name}/${prj_name}.runs/child_2_impl_1/${bithier}_pr_2_${pr_2_bitwise}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_2_bitwise}_partial.bit}
+catch {exec cp ./${prj_name}/${prj_name}.runs/child_1_impl_1/${bithier}_pr_1_${pr_1_cornerharris}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_1_cornerharris}_partial.bit}
+catch {exec cp ./${prj_name}/${prj_name}.runs/child_2_impl_1/${bithier}_pr_2_${pr_2_absdiff}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_2_absdiff}_partial.bit}
+catch {exec cp ./${prj_name}/${prj_name}.runs/child_3_impl_1/${bithier}_pr_0_${pr_0_filter2d_fifo}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_0_filter2d_fifo}_partial.bit}
+catch {exec cp ./${prj_name}/${prj_name}.runs/child_4_impl_1/${bithier}_pr_1_${pr_1_rgb2xyz}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_1_rgb2xyz}_partial.bit}
+catch {exec cp ./${prj_name}/${prj_name}.runs/child_5_impl_1/${bithier}_pr_2_${pr_2_add}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_2_add}_partial.bit}
+catch {exec cp ./${prj_name}/${prj_name}.runs/child_6_impl_1/${bithier}_pr_2_${pr_2_bitwise}_inst_0_partial.bit ./${dest_dir}/${prj_name}_${pr_2_bitwise}_partial.bit}
