@@ -1,8 +1,8 @@
-# Copyright (C) 2021 Xilinx, Inc
+# Copyright (C) 2021-2025 Xilinx, Inc
 
 # SPDX-License-Identifier: BSD-3-Clause
 
-.PHONY:all 
+.PHONY: all
 
 DIRECTORIES  = $(shell ls ../../../../src)
 HLS_PROJECTS = $(addsuffix  .vhlsprj, $(DIRECTORIES))
@@ -23,7 +23,7 @@ ifeq ($(DEVICE),zynq-us)
 endif
 
 %.vhlsprj:
-	vitis_hls -f script_hls.tcl -tclargs $(subst .vhlsprj,,$@) $(FPGAPART) $(PERIOD) $(VITIS_LIB_INCLUDE) $(DEVICE_MACRO)
+	vitis-run --mode hls --tcl script_hls.tcl -tclargs $(subst .vhlsprj,,$@) $(FPGAPART) $(PERIOD) $(VITIS_LIB_INCLUDE) $(DEVICE_MACRO)
 
 clean:
 	rm -rf *.log *.jou *.str
