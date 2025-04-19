@@ -28,7 +28,7 @@ The composable overlay architecture of a composable video overlay for the PYNQ-Z
 
 > Note: PYNQ-Z1 is supported with the same composable overlay as PYNQ-Z2
 
-To rebuild the composable pipeline you need Vitis and Vivado 2022.1. Navigate to one of the supported boards folder and run `make`, only steps for Linux are provided.
+To rebuild the composable pipeline you need Vitis and Vivado 2024.1. Navigate to one of the supported boards folder and run `make`, only steps for Linux are provided.
 
 ## Clone this repository
 
@@ -58,7 +58,7 @@ We welcome contributions, please review the [contributing](CONTRIBUTING.md) guid
 
 ## Licenses
 
-Copyright (C) 2021-2022 Xilinx, Inc
+Copyright (C) 2021-2025 Xilinx, Inc
 
 [SPDX-License-Identifier: BSD-3-Clause](LICENSE.md)
 
@@ -71,4 +71,4 @@ Pre-compiled binary files are not provided under an OSI-approved open source lic
 Binary files are provided under the following [license](boards/Pynq-Z2/LICENSE)
 
 ------------------------------------------------------
-<p align="center">Copyright&copy; 2021-2022 Xilinx</p>
+<p align="center">Copyright&copy; 2021-2025 Xilinx</p>

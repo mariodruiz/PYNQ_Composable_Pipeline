@@ -1,4 +1,4 @@
-# Copyright (C) 2021 Xilinx, Inc
+# Copyright (C) 2021-2025 Xilinx, Inc
 #
 # SPDX-License-Identifier: BSD-3-Clause
 
@@ -19,6 +19,6 @@ from .libs import *
 
 
 __author__ = "Mario Ruiz"
-__copyright__ = "Copyright 2021, Xilinx"
+__copyright__ = "Copyright 2021-2025, Xilinx"
 __email__ = "pynq_support@xilinx.com"
-__version__ = '1.1.0'
+__version__ = '1.2.0'
