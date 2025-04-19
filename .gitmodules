@@ -1,10 +1,10 @@
 [submodule "boards/ip"]
 	path = boards/ip
 	url = https://github.com/Xilinx/PYNQ
-	branch = image_v3.0
+	branch = image_v3.1
 	shallow = true
 [submodule "Vitis_Libraries"]
 	path = Vitis_Libraries
 	url = https://github.com/Xilinx/Vitis_Libraries.git
-	branch = master
+	branch = 2024.1
 	shallow = true

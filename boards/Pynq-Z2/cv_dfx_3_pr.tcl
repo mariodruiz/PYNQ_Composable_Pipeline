@@ -111,14 +111,14 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 # source cv_dfx_3_pr.tcl
 
 # Add user local board path and check if the board file exists
-set repo_path "$::env(HOME)/.Xilinx/Vivado/${scripts_vivado_version}/xhub/board_store/xilinx_board_store/XilinxBoardStore/Vivado/${scripts_vivado_version}/boards/"
-set_param board.repoPaths ${repo_path}
+set_param board.repoPaths [get_property LOCAL_ROOT_DIR [xhub::get_xstores xilinx_board_store]]
+
 set board [get_board_parts "*:pynq-z2:*" -latest_file_version]
 if { ${board} eq "" } {
-   puts ""
-   catch {common::send_gid_msg -ssname BD::TCL -id 2041 -severity "ERROR" "${board} board file is not found. Please install the board file either manually or using the Xilinx Board Store"}
-   return 1
+    xhub::refresh_catalog [xhub::get_xstores xilinx_board_store]
+    xhub::install [xhub::get_xitems "tulembedded.com:xilinx_board_store:pynq-z2:*"]
 }
+
 
 # If there is no project opened, this script will create a
 # project, but make sure you do not have an existing project
