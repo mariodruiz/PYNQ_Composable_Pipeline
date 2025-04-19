@@ -1,4 +1,4 @@
-# Copyright (C) 2022 Xilinx, Inc
+# Copyright (C) 2022-2025 Xilinx, Inc
 #
 # SPDX-License-Identifier: BSD-3-Clause
 
@@ -79,7 +79,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2022.2
+set scripts_vivado_version 2024.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -204,7 +204,7 @@ xilinx.com:ip:axi_iic:2.1\
 xilinx.com:ip:axi_intc:4.1\
 xilinx.com:ip:axi_gpio:2.0\
 xilinx.com:ip:proc_sys_reset:5.0\
-xilinx.com:ip:zynq_ultra_ps_e:3.4\
+xilinx.com:ip:zynq_ultra_ps_e:3.5\
 xilinx.com:ip:dfx_axi_shutdown_manager:1.0\
 xilinx.com:ip:xlconcat:2.1\
 xilinx.com:ip:xlslice:1.0\
@@ -222,7 +222,7 @@ xilinx.com:ip:axi_vdma:6.3\
 xilinx.com:ip:axis_subset_converter:1.1\
 xilinx.com:ip:v_demosaic:1.1\
 xilinx.com:ip:v_gamma_lut:1.1\
-xilinx.com:ip:mipi_csi2_rx_subsystem:5.2\
+xilinx.com:ip:mipi_csi2_rx_subsystem:6.0\
 xilinx.com:hls:pixel_pack_2:1.0\
 xilinx.com:ip:v_proc_ss:2.3\
 xilinx.com:ip:xlconstant:1.1\
@@ -1576,7 +1576,7 @@ proc create_hier_cell_mipi { parentCell nameHier } {
  ] $gpio_ip_reset
 
   # Create instance: mipi_csi2_rx_subsyst, and set properties
-  set mipi_csi2_rx_subsyst [ create_bd_cell -type ip -vlnv xilinx.com:ip:mipi_csi2_rx_subsystem:5.2 mipi_csi2_rx_subsyst ]
+  set mipi_csi2_rx_subsyst [ create_bd_cell -type ip -vlnv xilinx.com:ip:mipi_csi2_rx_subsystem:6.0 mipi_csi2_rx_subsyst ]
   set_property -dict [ list \
    CONFIG.CLK_LANE_IO_LOC {D7} \
    CONFIG.CLK_LANE_IO_LOC_NAME {IO_L13P_T2L_N0_GC_QBC_66} \
@@ -2161,7 +2161,7 @@ proc create_root_design { parentCell } {
   set proc_sys_reset_plclk2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 proc_sys_reset_plclk2 ]
 
   # Create instance: ps_e, and set properties
-  set ps_e [ create_bd_cell -type ip -vlnv xilinx.com:ip:zynq_ultra_ps_e:3.4 ps_e ]
+  set ps_e [ create_bd_cell -type ip -vlnv xilinx.com:ip:zynq_ultra_ps_e:3.5 ps_e ]
   set_property -dict [ list \
    CONFIG.PSU_BANK_0_IO_STANDARD {LVCMOS18} \
    CONFIG.PSU_BANK_1_IO_STANDARD {LVCMOS33} \
