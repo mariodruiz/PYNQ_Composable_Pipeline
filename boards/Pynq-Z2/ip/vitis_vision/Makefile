@@ -47,7 +47,7 @@ endif
 	vitis-run --mode hls --package --config $(subst .vhlsprj,,$@)_hls.cfg --work_dir ip_$(subst .vhlsprj,,$@)
 
 clean:
-	rm -rf *.log *.jou *.str *.cfg _ide/
+	rm -rf *.log *.jou *.str *.cfg _ide/ *.json
 
 distclean: clean
 	rm -rf *.vhlsprj ip_*/
