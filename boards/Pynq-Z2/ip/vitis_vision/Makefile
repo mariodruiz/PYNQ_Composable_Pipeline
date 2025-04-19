@@ -30,18 +30,21 @@ endif
 	@echo "Generating config file for project: $*"
 	@proj_name=$(subst .vhlsprj,,$@); \
 	config_file_name="$${proj_name}_hls.cfg"; \
+	{ \
 	echo "part=$(FPGAPART)"; \
+	echo ""; \
 	echo "[hls]"; \
+	echo "clock=$(FREQ)"; \
+	echo "syn.top=$${proj_name}_accel"; \
 	echo "flow_target=vivado"; \
 	echo "package.output.format=ip_catalog"; \
 	echo "package.output.syn=false"; \
-	echo "syn.top=$${proj_name}_accel"; \
 	echo "syn.file=$(HLS_DIR)/$${proj_name}/$${proj_name}.cpp"; \
-	echo "syn.file_cflags=I$(VITIS_LIB_INCLUDE) -D${DEVICE_MACRO}"; \
-	echo "clock=$(FREQ)"; \
+	echo "syn.cflags=-I$(VITIS_LIB_INCLUDE) -D${DEVICE_MACRO}"; \
+	} > "$${config_file_name}"
 
-	v++ -c --mode hls --config $(config_file_name) --work_dir ip
-	vitis-run --mode hls --package --config $(config_file_name) --work_dir ip
+	v++ -c --mode hls --config $(subst .vhlsprj,,$@)_hls.cfg --work_dir ip
+	vitis-run --mode hls --package --config $(subst .vhlsprj,,$@)_hls.cfg --work_dir ip
 
 clean:
 	rm -rf *.log *.jou *.str .cfg _ide/
