@@ -7,7 +7,7 @@
 DIRECTORIES  = $(shell ls ../../../../src)
 HLS_PROJECTS = $(addsuffix  .vhlsprj, $(DIRECTORIES))
 
-all: $(HLS_PROJECTS)
+all: submodule $(HLS_PROJECTS)
 
 DEVICE ?= zynq
 PERIOD ?= 6.4
@@ -15,6 +15,9 @@ FPGAPART ?= xc7z020clg400-1
 DEVICE_MACRO := _ZYNQ_
 VITIS_LIB_INCLUDE = $(shell readlink -f ../../../../Vitis_Libraries/vision/L1/include/)
 
+
+submodule:
+	cd ../../../../ && git submodule init && git submodule update
 
 ifeq ($(DEVICE),zynq-us)
 	FPGAPART = xczu5eg-sfvc784-1-e
