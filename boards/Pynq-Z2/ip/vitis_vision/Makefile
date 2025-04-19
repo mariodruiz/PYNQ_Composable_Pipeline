@@ -43,11 +43,11 @@ endif
 	echo "syn.cflags=-I$(VITIS_LIB_INCLUDE) -D${DEVICE_MACRO}"; \
 	} > "$${config_file_name}"
 
-	v++ -c --mode hls --config $(subst .vhlsprj,,$@)_hls.cfg --work_dir ip_$(subst .vhlsprj,,$@)
-	vitis-run --mode hls --package --config $(subst .vhlsprj,,$@)_hls.cfg --work_dir ip_$(subst .vhlsprj,,$@)
+	v++ -c --mode hls --config $(subst .vhlsprj,,$@)_hls.cfg --work_dir $(subst .vhlsprj,,$@).vhlsprj
+	vitis-run --mode hls --package --config $(subst .vhlsprj,,$@)_hls.cfg --work_dir $(subst .vhlsprj,,$@).vhlsprj
 
 clean:
-	rm -rf *.log *.jou *.str *.cfg _ide/ *.json
+	rm -rf *.log *.jou *.str *.cfg _ide/ *.json logs/
 
 distclean: clean
-	rm -rf *.vhlsprj ip_*/
+	rm -rf *.vhlsprj
