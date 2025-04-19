@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: BSD-3-Clause
 
+import asyncio
 from enum import Enum
 import numpy as np
 import json

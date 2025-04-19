@@ -1,0 +1,473 @@
+[
+    {
+        "video/pixel_unpack": {
+            "si": [
+                0
+            ],
+            "dfx": false,
+            "loaded": true,
+            "modtype": "pixel_unpack_2"
+        },
+        "video/pixel_pack": {
+            "mi": [
+                0
+            ],
+            "dfx": false,
+            "loaded": true,
+            "modtype": "pixel_pack_2"
+        },
+        "mipi/v_proc_sys": {
+            "si": [
+                1
+            ],
+            "dfx": false,
+            "loaded": true,
+            "modtype": "v_proc_ss"
+        },
+        "mipi/pixel_pack": {
+            "mi": [
+                1
+            ],
+            "dfx": false,
+            "loaded": true,
+            "modtype": "pixel_pack_2"
+        },
+        "filter2d_accel": {
+            "si": [
+                2
+            ],
+            "dfx": false,
+            "loaded": true,
+            "modtype": "filter2d_accel",
+            "mi": [
+                2
+            ]
+        },
+        "lut_accel": {
+            "si": [
+                3
+            ],
+            "dfx": false,
+            "loaded": true,
+            "modtype": "lut_accel",
+            "mi": [
+                3
+            ]
+        },
+        "rgb2gray_accel": {
+            "si": [
+                4
+            ],
+            "dfx": false,
+            "loaded": true,
+            "modtype": "rgb2gray_accel",
+            "mi": [
+                4
+            ]
+        },
+        "gray2rgb_accel": {
+            "si": [
+                5
+            ],
+            "dfx": false,
+            "loaded": true,
+            "modtype": "gray2rgb_accel",
+            "mi": [
+                5
+            ]
+        },
+        "rgb2hsv_accel": {
+            "si": [
+                6
+            ],
+            "dfx": false,
+            "loaded": true,
+            "modtype": "rgb2hsv_accel",
+            "mi": [
+                6
+            ]
+        },
+        "colorthresholding_accel": {
+            "si": [
+                7
+            ],
+            "dfx": false,
+            "loaded": true,
+            "modtype": "colorthresholding_accel",
+            "mi": [
+                7
+            ]
+        },
+        "duplicate_accel": {
+            "si": [
+                8,
+                9
+            ],
+            "dfx": false,
+            "loaded": true,
+            "modtype": "axis_broadcaster",
+            "mi": [
+                8
+            ]
+        },
+        "pr_0/dilate_accel": {
+            "mi": [
+                9
+            ],
+            "si": [
+                10
+            ],
+            "modtype": "dilate_accel",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_0_dilate_erode_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_0/erode_accel": {
+            "mi": [
+                10
+            ],
+            "si": [
+                11
+            ],
+            "modtype": "erode_accel",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_0_dilate_erode_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_0/fast_accel": {
+            "mi": [
+                9
+            ],
+            "si": [
+                10
+            ],
+            "modtype": "fast_accel",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_0_fast_fifo_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_0/axis_data_fifo_0": {
+            "mi": [
+                10
+            ],
+            "si": [
+                11
+            ],
+            "modtype": "axis_data_fifo",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_0_filter2d_fifo_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_0/filter2d_accel": {
+            "mi": [
+                9
+            ],
+            "si": [
+                10
+            ],
+            "modtype": "filter2d_accel",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_0_filter2d_fifo_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_1/rgb2xyz_accel": {
+            "mi": [
+                11
+            ],
+            "si": [
+                12
+            ],
+            "modtype": "rgb2xyz_accel",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_1_rgb2xyz_fifo_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_1/axis_data_fifo_1": {
+            "mi": [
+                12
+            ],
+            "si": [
+                13
+            ],
+            "modtype": "axis_data_fifo",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_1_rgb2xyz_fifo_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_1/dilate_accel": {
+            "mi": [
+                11
+            ],
+            "si": [
+                12
+            ],
+            "modtype": "dilate_accel",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_1_dilate_erode_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_1/erode_accel": {
+            "mi": [
+                12
+            ],
+            "si": [
+                13
+            ],
+            "modtype": "erode_accel",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_1_dilate_erode_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_1/cornerHarris_accel": {
+            "mi": [
+                11
+            ],
+            "si": [
+                12
+            ],
+            "modtype": "cornerHarris_accel",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_1_cornerharris_fifo_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_1/axis_data_fifo_0": {
+            "mi": [
+                12
+            ],
+            "si": [
+                13
+            ],
+            "modtype": "axis_data_fifo",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_1_cornerharris_fifo_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_2/absdiff_accel": {
+            "mi": [
+                13,
+                14
+            ],
+            "si": [
+                14
+            ],
+            "modtype": "absdiff_accel",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_2_absdiff_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_2/subtract_accel": {
+            "mi": [
+                13,
+                14
+            ],
+            "si": [
+                14
+            ],
+            "modtype": "subtract_accel",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_2_subtract_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_2/add_accel": {
+            "mi": [
+                13,
+                14
+            ],
+            "si": [
+                14
+            ],
+            "modtype": "add_accel",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_2_add_partial.bit",
+            "dfx": true,
+            "loaded": false
+        },
+        "pr_2/bitwise_and_accel": {
+            "mi": [
+                13,
+                14
+            ],
+            "si": [
+                14
+            ],
+            "modtype": "bitwise_and_accel",
+            "bitstream": "overlay/cv_dfx_3_pr_composable_pr_2_bitand_partial.bit",
+            "dfx": true,
+            "loaded": false
+        }
+    },
+    {
+        "pr_0": {
+            "decoupler": "/composable/dfx_decouplers/hw_contract_pr0/dfx_decoupler",
+            "decouple": 0,
+            "status": 3,
+            "rm": {
+                "cv_dfx_3_pr_composable_pr_0_dilate_erode_partial.bit": {
+                    "pr_0/dilate_accel": {
+                        "interface": [
+                            "/pr_0/stream_in0",
+                            "/pr_0/stream_out0"
+                        ],
+                        "modtype": "dilate_accel",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_0_dilate_erode_partial.bit"
+                    },
+                    "pr_0/erode_accel": {
+                        "interface": [
+                            "/pr_0/stream_in1",
+                            "/pr_0/stream_out1"
+                        ],
+                        "modtype": "erode_accel",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_0_dilate_erode_partial.bit"
+                    }
+                },
+                "cv_dfx_3_pr_composable_pr_0_fast_fifo_partial.bit": {
+                    "pr_0/fast_accel": {
+                        "interface": [
+                            "/pr_0/stream_in0",
+                            "/pr_0/stream_out0"
+                        ],
+                        "modtype": "fast_accel",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_0_fast_fifo_partial.bit"
+                    },
+                    "pr_0/axis_data_fifo_0": {
+                        "interface": [
+                            "/pr_0/stream_in1",
+                            "/pr_0/stream_out1"
+                        ],
+                        "modtype": "axis_data_fifo",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_0_fast_fifo_partial.bit"
+                    }
+                },
+                "cv_dfx_3_pr_composable_pr_0_filter2d_fifo_partial.bit": {
+                    "pr_0/filter2d_accel": {
+                        "interface": [
+                            "/pr_0/stream_in0",
+                            "/pr_0/stream_out0"
+                        ],
+                        "modtype": "filter2d_accel",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_0_filter2d_fifo_partial.bit"
+                    },
+                    "pr_0/axis_data_fifo_0": {
+                        "interface": [
+                            "/pr_0/stream_in1",
+                            "/pr_0/stream_out1"
+                        ],
+                        "modtype": "axis_data_fifo",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_0_filter2d_fifo_partial.bit"
+                    }
+                }
+            }
+        },
+        "pr_1": {
+            "decoupler": "/composable/dfx_decouplers/hw_contract_pr1/dfx_decoupler",
+            "decouple": 1,
+            "status": 4,
+            "rm": {
+                "cv_dfx_3_pr_composable_pr_1_rgb2xyz_fifo_partial.bit": {
+                    "pr_1/rgb2xyz_accel": {
+                        "interface": [
+                            "/pr_1/stream_in0",
+                            "/pr_1/stream_out0"
+                        ],
+                        "modtype": "rgb2xyz_accel",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_1_rgb2xyz_fifo_partial.bit"
+                    },
+                    "pr_1/axis_data_fifo_1": {
+                        "interface": [
+                            "/pr_1/stream_in1",
+                            "/pr_1/stream_out1"
+                        ],
+                        "modtype": "axis_data_fifo",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_1_rgb2xyz_fifo_partial.bit"
+                    }
+                },
+                "cv_dfx_3_pr_composable_pr_1_dilate_erode_partial.bit": {
+                    "pr_1/dilate_accel": {
+                        "interface": [
+                            "/pr_1/stream_in0",
+                            "/pr_1/stream_out0"
+                        ],
+                        "modtype": "dilate_accel",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_1_dilate_erode_partial.bit"
+                    },
+                    "pr_1/erode_accel": {
+                        "interface": [
+                            "/pr_1/stream_in1",
+                            "/pr_1/stream_out1"
+                        ],
+                        "modtype": "erode_accel",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_1_dilate_erode_partial.bit"
+                    }
+                },
+                "cv_dfx_3_pr_composable_pr_1_cornerharris_fifo_partial.bit": {
+                    "pr_1/cornerHarris_accel": {
+                        "interface": [
+                            "/pr_1/stream_in0",
+                            "/pr_1/stream_out0"
+                        ],
+                        "modtype": "cornerHarris_accel",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_1_cornerharris_fifo_partial.bit"
+                    },
+                    "pr_1/axis_data_fifo_0": {
+                        "interface": [
+                            "/pr_1/stream_in1",
+                            "/pr_1/stream_out1"
+                        ],
+                        "modtype": "axis_data_fifo",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_1_cornerharris_fifo_partial.bit"
+                    }
+                }
+            }
+        },
+        "pr_2": {
+            "decoupler": "/composable/dfx_decouplers/hw_contract_pr2/dfx_decoupler",
+            "decouple": 2,
+            "status": 5,
+            "rm": {
+                "cv_dfx_3_pr_composable_pr_2_absdiff_partial.bit": {
+                    "pr_2/absdiff_accel": {
+                        "interface": [
+                            "/pr_2/stream_in0",
+                            "/pr_2/stream_in1",
+                            "/pr_2/stream_out0"
+                        ],
+                        "modtype": "absdiff_accel",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_2_absdiff_partial.bit"
+                    }
+                },
+                "cv_dfx_3_pr_composable_pr_2_subtract_partial.bit": {
+                    "pr_2/subtract_accel": {
+                        "interface": [
+                            "/pr_2/stream_in0",
+                            "/pr_2/stream_in1",
+                            "/pr_2/stream_out0"
+                        ],
+                        "modtype": "subtract_accel",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_2_subtract_partial.bit"
+                    }
+                },
+                "cv_dfx_3_pr_composable_pr_2_add_partial.bit": {
+                    "pr_2/add_accel": {
+                        "interface": [
+                            "/pr_2/stream_in0",
+                            "/pr_2/stream_in1",
+                            "/pr_2/stream_out0"
+                        ],
+                        "modtype": "add_accel",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_2_add_partial.bit"
+                    }
+                },
+                "cv_dfx_3_pr_composable_pr_2_bitand_partial.bit": {
+                    "pr_2/bitwise_and_accel": {
+                        "interface": [
+                            "/pr_2/stream_in0",
+                            "/pr_2/stream_in1",
+                            "/pr_2/stream_out0"
+                        ],
+                        "modtype": "bitwise_and_accel",
+                        "bitstream": "overlay/cv_dfx_3_pr_composable_pr_2_bitand_partial.bit"
+                    }
+                }
+            }
+        }
+    }
+]
