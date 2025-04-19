@@ -10,6 +10,34 @@ import itertools
 
 
 app_construct = [
+    (['dilate'], ['ps_video_in', 'pr/dilate', 'ps_video_out']),
+
+    (['erode'], ['ps_video_in', 'pr/erode', 'ps_video_out']),
+
+    (['fast'], ['ps_video_in', 'pr/fast', 'ps_video_out']),
+
+    (['cornerharris'], ['ps_video_in', 'pr/cornerHarris', 'ps_video_out']),
+
+    (['filter2d'], ['ps_video_in', 'pr/filter2d_accel', 'ps_video_out']),
+
+    (['rgb2xyz'], ['ps_video_in', 'pr/rgb2xyz_accel', 'ps_video_out']),
+
+    (['add'],
+     ['ps_video_in', 'duplicate_accel', [['lut_accel'], [1]], 'pr/add_accel',
+      'ps_video_out']),
+
+    (['bitwise'],
+     ['ps_video_in', 'duplicate_accel', [['lut_accel'], [1]], 'pr/bitwise',
+      'ps_video_out']),
+
+    (['subtract'],
+     ['ps_video_in', 'duplicate_accel', [['lut_accel'], [1]],
+      'pr/subtract_accel', 'ps_video_out']),
+
+    (['absdiff'],
+     ['ps_video_in', 'duplicate_accel', [['lut_accel'], [1]],
+      'pr/absdiff_accel', 'ps_video_out']),
+
     (['subtract', 'filter2d'],
      ['ps_video_in', 'filter2d_accel', 'duplicate_accel',
       [['pr/filter2d_accel'], [1]],
@@ -23,13 +51,60 @@ app_construct = [
      [['rgb2gray_accel', 'pr/cornerHarris', 'gray2rgb_accel'], [1]],
      'pr/add_accel', 'ps_video_out']),
 
-    (['dilate', 'dilate', 'bitand'], ['ps_video_in', 'duplicate_accel',
+    (['dilate', 'dilate', 'bitwise'], ['ps_video_in', 'duplicate_accel',
      [['rgb2gray_accel', 'colorthresholding_accel', 'pr/erode', 'pr/dilate',
-     'pr/dilate', 'pr/erode'], [1]], 'pr/bitwise', 'ps_video_out']),
+       'pr/dilate', 'pr/erode'], [1]], 'pr/bitwise', 'ps_video_out']),
+
+    (['dilate', 'bitwise'], ['ps_video_in', 'duplicate_accel',
+     [['rgb2gray_accel', 'colorthresholding_accel', 'pr/erode', 'pr/dilate'],
+      [1]], 'pr/bitwise', 'ps_video_out']),
 
     (['add'], ['ps_video_in', 'duplicate_accel',
      [['rgb2gray_accel', 'filter2d_accel', 'colorthresholding_accel',
-     'gray2rgb_accel'], [1]], 'pr/add_accel', 'ps_video_out']),
+       'gray2rgb_accel'], [1]], 'pr/add_accel', 'ps_video_out']),
+
+    (['add', 'rgb2xyz'],
+     ['ps_video_in', 'duplicate_accel', [['rgb2gray_accel',
+      'pr/rgb2xyz_accel', 'gray2rgb_accel'], [1]], 'pr/add_accel',
+      'ps_video_out']),
+
+    (['bitwise', 'rgb2xyz'],
+     ['ps_video_in', 'duplicate_accel', [['rgb2gray_accel',
+      'pr/rgb2xyz_accel', 'gray2rgb_accel'], [1]], 'pr/bitwise',
+      'ps_video_out']),
+
+    (['subtract', 'rgb2xyz'],
+     ['ps_video_in', 'duplicate_accel', [['rgb2gray_accel',
+      'pr/rgb2xyz_accel', 'gray2rgb_accel'], [1]], 'pr/subtract_accel',
+      'ps_video_out']),
+
+    (['absdiff', 'rgb2xyz'],
+     ['ps_video_in', 'duplicate_accel', [['rgb2gray_accel',
+      'pr/rgb2xyz_accel', 'gray2rgb_accel'], [1]], 'pr/absdiff_accel',
+      'ps_video_out']),
+
+    (['fast'],
+     ['ps_video_in', 'rgb2gray_accel', 'pr/fast', 'gray2rgb_accel',
+      'ps_video_out']),
+
+    (['cornerharris'],
+     ['ps_video_in', 'rgb2gray_accel', 'pr/cornerHarris', 'gray2rgb_accel',
+      'ps_video_out']),
+
+    (['fast'],
+     ['ps_video_in', 'rgb2gray_accel', 'filter2d_accel',
+      'colorthresholding_accel', 'gray2rgb_accel', 'ps_video_out']),
+
+    (['fast'], ['ps_video_in', 'pr/fifo', 'ps_video_out']),
+
+    (['cornerharris'], ['ps_video_in', 'pr/fifo', 'ps_video_out']),
+
+    (['rgb2xyz'], ['ps_video_in', 'pr/fifo', 'ps_video_out']),
+
+    (['rgb2xyz'], ['ps_video_in', 'pr/rgb2xyz', 'ps_video_out']),
+
+    (['rgb2xyz'], ['ps_video_in', 'pr/rgb2xyz', 'pr/fifo', 'ps_video_out']),
+
 ]
 
 
@@ -84,7 +159,7 @@ def generate_valid_apps() -> list:
 valid_apps = generate_valid_apps()
 
 
-def get_ip_object_from_overlay(ip, cpipe):
+def get_ip_object_from_overlay(ip, cpipe, regions):
     """Retrieve the actual IP driver object from the overlay"""
 
     if isinstance(ip, int) or ip == '':
@@ -99,17 +174,17 @@ def get_ip_object_from_overlay(ip, cpipe):
     return getattr(cpipe, ip)
 
 
-def convert_string_to_ip_object(app, cpipe) -> list:
+def string_to_ip_object(app, cpipe, regions) -> list:
     """From list of IP name to use and generate object list with driver"""
     obj = []
     for ip_name in app:
         if not isinstance(ip_name, list):
-            ip_obj = get_ip_object_from_overlay(ip_name, cpipe)
+            ip_obj = get_ip_object_from_overlay(ip_name, cpipe, regions)
             obj.append(ip_obj)
         else:
             branch = []
             for ip_list in ip_name:
-                branch.append(convert_string_to_ip_object(ip_list, cpipe))
+                branch.append(string_to_ip_object(ip_list, cpipe, regions))
             obj.append(branch)
     return obj
 
@@ -118,30 +193,55 @@ def get_dfx_regions_to_download(dfx, cpipe) -> list:
     """Retrieve actual DFX region to download"""
     dfx_regions = []
     for ip in dfx:
-        name = ip.replace('bitand', 'bitwise')
         for k, v in cpipe.c_dict.items():
-            if name.lower() in k.lower() and v['dfx']:
+            if ip.lower() in k.lower() and v['dfx']:
                 dfx_regions.append(k)
                 break
     return dfx_regions
 
 
+@pytest.mark.skipif(not pytest.webcam and not pytest.videofile,
+                    reason='Web Camera or Video file not found')
 @pytest.mark.parametrize('app', valid_apps)
 def test_app(app, create_composable):
-    """ This test will compose the apps and start a video stream
+    """This test will compose the apps and start a video stream
 
     Each `app` contains the general name of dfx to download and pipeline
     """
     ol, cpipe = create_composable
     dfx_regions = get_dfx_regions_to_download(app[0], cpipe)
     cpipe.load(dfx_regions)
-    app_obj = convert_string_to_ip_object(app[1], cpipe)
+    pipeline = app[1]
+    if pytest.board == 'KV260':
+        sink = VSink.DP
+    else:
+        sink = VSink.HDMI
+        pipeline[0] = 'hdmi_sink_in'
+        pipeline[-1] = 'hdmi_sink_out'
+
+    app_obj = string_to_ip_object(pipeline, cpipe, app[0])
+    cpipe._graph_debug = True
     cpipe.compose(app_obj)
-    video = VideoStream(ol, VSource.OpenCV, VSink.DP, '../mountains.mp4')
+    file = '../mountains.mp4' if pytest.videofile else 0
+    video = VideoStream(ol, VSource.OpenCV, sink, file=file)
+
     try:
         video.start()
         time.sleep(5)
-        assert video._video._started and video._video._running
+        status = video._video._started and video._video._running
+        label = 'FAILED\n'
+        color = 'red'
+        if status:
+            label = 'PASSED\n'
+            color = 'green'
+        label = label + pytest.overlay
+        cpipe.graph.attr(label=label, _attributes={'fontcolor': color})
+
+        name = ('passed' if status else 'failed') + \
+            f'/reloc_{valid_apps.index(app)}'
+
+        cpipe.graph.render(format='png', outfile=f'result_tests/{name}.png')
         video.stop()
+        assert status
     except pytest.PytestUnhandledThreadExceptionWarning:
-        assert False, f"App {app} failed"
+        assert False, f'App {app} failed'

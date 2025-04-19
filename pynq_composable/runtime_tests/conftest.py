@@ -2,8 +2,11 @@
 #
 # SPDX-License-Identifier: BSD-3-Clause
 
+import cv2 as cv
+import os
 from pynq import Overlay
 from pynq_composable import Composable
+from pynq_composable.virtual import _mem_items
 import pytest
 
 
@@ -39,10 +42,21 @@ def parameter():
     dfx_ip = list()
     for k, v in cpipe.c_dict.unloaded.items():
         element = {'ipname': k, 'modtype': v['modtype']}
-        dfx_ip.append(element)
+        if v['modtype'] not in _mem_items:
+            dfx_ip.append(element)
     return dfx_ip
+
+
+def webcam_present(file=0):
+    webcam = cv.VideoCapture(file)
+    status = webcam is not None and webcam.isOpened()
+    webcam.release()
+    return status
 
 
 def pytest_configure():
     pytest.dfx_ip = parameter()
+    pytest.webcam = webcam_present(0)
+    pytest.videofile = webcam_present('../mountains.mp4')
     pytest.overlay = _overlay_file
+    pytest.board = os.environ.get("BOARD")
