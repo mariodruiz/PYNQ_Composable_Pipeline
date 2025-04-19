@@ -30,6 +30,7 @@ class VSource(Enum):
     OpenCV = auto()
     HDMI = auto()
     MIPI = auto()
+    File = auto()
 
 
 class VSink(Enum):
@@ -37,6 +38,7 @@ class VSink(Enum):
 
     HDMI = auto()
     DP = auto()
+    File = auto()
 
 
 class _DisplayPort(DrmDriver):

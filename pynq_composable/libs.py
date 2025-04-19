@@ -7,6 +7,7 @@ import numpy as np
 import json
 import os
 from pynq import DefaultIP
+from pynq.lib.video.dma import AxiVDMA
 from pynq.ps import CPU_ARCH, ZU_ARCH
 import struct
 
@@ -718,3 +719,47 @@ class MultiplyIP(VitisVisionIP):
 
         self._scale = float(scale)
         self.write(0x20, _float2int(self.scale))
+
+
+class AxiVDMAAsyncio(AxiVDMA):
+    #bindto = ["xilinx.com:ip:axi_vdma:6.2", "xilinx.com:ip:axi_vdma:6.3"]
+
+    class S2MMChannel:
+        """Read channel of the Video DMA
+
+        Brings frames from the video input into memory. Hands ownership of
+        the read frames to the user code.
+
+        Attributes
+        ----------
+        mode : VideoMode
+            The video mode of the DMA channel
+        cacheable_frames : bool
+            Whether frames should be stored in cacheable or
+            non-cacheable memory
+
+        """
+        def readframe(self):
+            """Read a frame from the channel and return to the user
+
+            This function may block until a complete frame has been read. A
+            single frame buffer is kept so the first frame read after a long
+            pause in reading may return a stale frame. To ensure an up-to-date
+            frame when starting processing video read an additional time
+            before starting the processing loop.
+
+            Returns
+            -------
+            numpy.ndarray of the video frame
+
+            """
+            if not self.running:
+                raise RuntimeError("DMA channel not started")
+            while self._mmio.read(0x34) & 0x1000 == 0:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                loop.run_until_complete(
+                    asyncio.ensure_future(self._interrupt.wait()))
+                pass
+            self._mmio.write(0x34, 0x1000)
+            return self._readframe_internal()
