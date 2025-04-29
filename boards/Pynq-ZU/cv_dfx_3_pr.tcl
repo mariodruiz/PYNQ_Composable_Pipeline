@@ -117,7 +117,7 @@ if { $list_projs eq "" } {
 }
 
 # Set IP repo
-set_property ip_repo_paths "./ip/ ../ip/boards/ip" [current_project]
+set_property ip_repo_paths "./../KV260/ip/ ../ip/boards/ip" [current_project]
 update_ip_catalog
 
 # Add constraints files

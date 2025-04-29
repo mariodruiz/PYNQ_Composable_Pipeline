@@ -13,7 +13,7 @@ submodule:
 	cd ../../ && git submodule init && git submodule update
 
 vision_ip:
-	make -C ../Pynq-ZU/ip/vitis_vision/ DEVICE=zynq-us -j4
+	make -C ip/vitis_vision/ DEVICE=zynq-us -j4
 
 pynq_hls:
 	make -C ../ip/boards/ZCU104/base/ hls_ip
