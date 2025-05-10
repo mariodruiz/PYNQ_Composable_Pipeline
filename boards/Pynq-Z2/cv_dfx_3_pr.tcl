@@ -1,4 +1,5 @@
-# Copyright (C) 2022-2025 Xilinx, Inc
+# Copyright (C) 2022 Xilinx, Inc
+# Copyright (C) 2023-2025 Advanced Micro Devices, Inc.
 #
 # SPDX-License-Identifier: BSD-3-Clause
 
@@ -16,7 +17,7 @@
 # ----- --- -------- -----------------------------------------------
 # 1.00a pp   2/5/2021 Design having AXIS switch, four PR rgeions, rgb2gray,
 #                     gray2rgb, colorthresholding, in static region; filter2d,
-#                     dilate, erode, 4 KB FIFO, 
+#                     dilate, erode, 4 KB FIFO,
 #
 # 1.00b pp    2/9/2021 Removed colorthresholding, erode and dilate from the
 #                 static part.
@@ -29,14 +30,14 @@
 #              Use different name for the FIFOs in the same PR region to get different keys
 #              from the composable class
 #              Add color thresholding as reconfigurable module into pr_join and pr_fork
-# 
+#
 # 1.00e mr   2/19/2021 Include LUT IP in static portion and remove _0 from IP's name
 #                      Set dilate and erode as default IP in pr_0 and pr_1. Add two
 #                      axi4-lite interfaces to pr_0 and pr_1 to workaround addressing
 #                      issues, to that end the add two more interfaces in the axi interconnect
 #                      an connect them to the corresponding dfx decoupler
-# 
-# 1.00f mr   2/25/2021 Move DFX related IP to a unique hierarchy, add GPIO IP for leds, 
+#
+# 1.00f mr   2/25/2021 Move DFX related IP to a unique hierarchy, add GPIO IP for leds,
 #                      switches and buttons
 #
 # 1.20  mr   03/03/2021 Rename composable_pipeline hierarchy to composable, include rgb2xyz_accel
@@ -48,13 +49,13 @@
 # 1.40  mr   04/15/2021 Move color thresholding to the static region, and rgb2xyz to the pr_fork.
 #                       Additionally add bitwise-and on pr_join
 #
-# 1.50  mr   04/20/2021 Add logic for soft reset to flush pipeline. Set FIFO size to 16384 for 
+# 1.50  mr   04/20/2021 Add logic for soft reset to flush pipeline. Set FIFO size to 16384 for
 #                       both input path to the pr_join hierarchy
 #
 # 1.51  mr   05/27/2021 Double FIFO HDMI out storage size by using width converters
 #
 # 1.60  mr   07/02/2021 Move pipeline control inside the composable hierarchy, this includes
-#                       the DFX control as well 
+#                       the DFX control as well
 #
 # 2.00  mr   7/13/2021  Reorganize IPI, everything related to composable is within its
 #                       own hierarchy.
@@ -179,7 +180,7 @@ if { ${design_name} eq "" } {
    set errMsg "Design <$design_name> already exists in your project, please set the variable <design_name> to another value."
    set nRet 1
 } elseif { [get_files -quiet ${design_name}.bd] ne "" } {
-   # USE CASES: 
+   # USE CASES:
    #    6) Current opened design, has components, but diff names, design_name exists in project.
    #    7) No opened design, design_name exists in project.
 
@@ -213,7 +214,7 @@ set bCheckIPsPassed 1
 ##################################################################
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
-   set list_check_ips "\ 
+   set list_check_ips "\
 xilinx.com:ip:axi_gpio:2.0\
 xilinx.com:ip:xlconcat:2.1\
 xilinx.com:ip:processing_system7:5.5\
@@ -601,6 +602,15 @@ proc create_hier_cell_hdmi_out { parentCell nameHier } {
   # Create instance: axis_register_slice, and set properties
   set axis_register_slice [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_register_slice:1.1 axis_register_slice ]
 
+  set_property -dict [ list \
+   CONFIG.TUSER_WIDTH.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TLAST.VALUE_SRC USER \
+   CONFIG.TUSER_WIDTH {1} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+  ] $axis_register_slice
+
   # Create instance: color_convert, and set properties
   set color_convert [ create_bd_cell -type ip -vlnv xilinx.com:hls:color_convert:1.0 color_convert ]
 
@@ -690,7 +700,6 @@ proc create_hier_cell_hdmi_in { parentCell nameHier } {
 
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 stream_in_24
 
-
   # Create pins
   create_bd_pin -dir O -type clk PixelClk
   create_bd_pin -dir O aPixelClkLckd
@@ -707,6 +716,14 @@ proc create_hier_cell_hdmi_in { parentCell nameHier } {
 
   # Create instance: axis_register_slice, and set properties
   set axis_register_slice [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_register_slice:1.1 axis_register_slice ]
+  set_property -dict [ list \
+   CONFIG.TUSER_WIDTH.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TLAST.VALUE_SRC USER \
+   CONFIG.TUSER_WIDTH {1} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+  ] $axis_register_slice
 
   # Create instance: color_convert, and set properties
   set color_convert [ create_bd_cell -type ip -vlnv xilinx.com:hls:color_convert:1.0 color_convert ]
@@ -881,7 +898,7 @@ proc create_hier_cell_dfx_decouplers { parentCell nameHier } {
   create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 m_axis_dfx_pr_1_1
 
   create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 m_axis_dfx_pr_2_0
-  
+
   create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 m_axis_dfx_pr_2_1
 
   create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 m_axis_pr_0_0
@@ -1590,7 +1607,7 @@ proc create_hier_cell_composable { parentCell nameHier } {
   create_hier_cell_dfx_homogeneous_interfaces $hier_obj pr_1
 
   # Create instance: pr_2
-  create_hier_cell_dfx_homogeneous_interfaces $hier_obj pr_2  
+  create_hier_cell_dfx_homogeneous_interfaces $hier_obj pr_2
 
   # Create instance: ps_user_soft_reset, and set properties
   set ps_user_soft_reset [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 ps_user_soft_reset ]
