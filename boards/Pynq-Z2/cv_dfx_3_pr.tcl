@@ -1443,6 +1443,8 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
    CONFIG.TUSER_BITS_PER_BYTE {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_dwidth_24_48
 
   # Create instance: axis_dwidth_48_24, and set properties
@@ -1456,6 +1458,8 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
    CONFIG.TUSER_BITS_PER_BYTE {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_dwidth_48_24
 
   # Create instance: axis_upconv_path_0, and set properties
@@ -1470,6 +1474,8 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
    CONFIG.TUSER_BITS_PER_BYTE {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_upconv_path_0
 
   # Create instance: axis_downconv_path_0, and set properties
@@ -1483,6 +1489,8 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
    CONFIG.TUSER_BITS_PER_BYTE {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_downconv_path_0
 
   # Create instance: axis_upconv_path_1, and set properties
@@ -1497,6 +1505,8 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
    CONFIG.TUSER_BITS_PER_BYTE {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_upconv_path_1
 
   # Create instance: axis_downconv_path_1, and set properties
@@ -1510,6 +1520,8 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
    CONFIG.TUSER_BITS_PER_BYTE {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_downconv_path_1
 
   # Create instance: axis_fifo_hdmi_out, and set properties
@@ -1520,6 +1532,8 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.HAS_TLAST {1} \
    CONFIG.TDATA_NUM_BYTES {6} \
    CONFIG.TUSER_WIDTH {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_fifo_hdmi_out
 
   # Create instance: axis_switch, and set properties
@@ -1537,6 +1551,8 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
    CONFIG.TUSER_WIDTH {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_switch
 
   # Create instance: colorthresholding_accel, and set properties
@@ -1578,6 +1594,8 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.HAS_TLAST {1} \
    CONFIG.TDATA_NUM_BYTES {6} \
    CONFIG.TUSER_WIDTH {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $fifo_path_0
 
   # Create instance: fifo_path_1, and set properties
@@ -1588,6 +1606,8 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.HAS_TLAST {1} \
    CONFIG.TDATA_NUM_BYTES {6} \
    CONFIG.TUSER_WIDTH {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $fifo_path_1
 
   # Create instance: pipeline_control, and set properties
