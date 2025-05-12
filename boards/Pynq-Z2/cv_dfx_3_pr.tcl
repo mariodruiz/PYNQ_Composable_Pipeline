@@ -1540,8 +1540,6 @@ proc create_hier_cell_composable { parentCell nameHier } {
   set axis_switch [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_switch:1.1 axis_switch ]
   set_property -dict [ list \
    CONFIG.DECODER_REG {1} \
-   CONFIG.HAS_TKEEP {0} \
-   CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TREADY {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.NUM_MI {15} \
@@ -1550,9 +1548,12 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.TDATA_NUM_BYTES {3} \
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
-   CONFIG.TUSER_WIDTH {1} \
-   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.TUSER_WIDTH.VALUE_SRC USER \
+   CONFIG.HAS_TLAST.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER
    CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.TUSER_WIDTH {1} \
  ] $axis_switch
 
   # Create instance: colorthresholding_accel, and set properties

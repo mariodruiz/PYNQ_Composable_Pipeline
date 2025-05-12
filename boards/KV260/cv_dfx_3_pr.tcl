@@ -8,7 +8,7 @@
 #
 # @file cv_dfx_3_pr.tcl
 #
-# Vivado tcl script to generate composable pipeline full and partial bitstreams 
+# Vivado tcl script to generate composable pipeline full and partial bitstreams
 # for Kria Vision Started Kit KV260 board
 #
 # <pre>
@@ -152,7 +152,7 @@ if { ${design_name} eq "" } {
    set errMsg "Design <$design_name> already exists in your project, please set the variable <design_name> to another value."
    set nRet 1
 } elseif { [get_files -quiet ${design_name}.bd] ne "" } {
-   # USE CASES: 
+   # USE CASES:
    #    6) Current opened design, has components, but diff names, design_name exists in project.
    #    7) No opened design, design_name exists in project.
 
@@ -531,7 +531,7 @@ proc create_hier_cell_dfx_decouplers { parentCell nameHier } {
   # Create instance: axisreg_m_pr_0_0, and set properties
   set axisreg_m_pr_0_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_register_slice:1.1 axisreg_m_pr_0_0 ]
   set_property -dict [ list \
-   CONFIG.HAS_TKEEP {0} \
+   CONFIG.HAS_TKEEP {1} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.REG_CONFIG {8} \
@@ -542,7 +542,7 @@ proc create_hier_cell_dfx_decouplers { parentCell nameHier } {
   # Create instance: axisreg_m_pr_0_1, and set properties
   set axisreg_m_pr_0_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_register_slice:1.1 axisreg_m_pr_0_1 ]
   set_property -dict [ list \
-   CONFIG.HAS_TKEEP {0} \
+   CONFIG.HAS_TKEEP {1} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.REG_CONFIG {8} \
@@ -553,7 +553,7 @@ proc create_hier_cell_dfx_decouplers { parentCell nameHier } {
   # Create instance: axisreg_m_pr_1_0, and set properties
   set axisreg_m_pr_1_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_register_slice:1.1 axisreg_m_pr_1_0 ]
   set_property -dict [ list \
-   CONFIG.HAS_TKEEP {0} \
+   CONFIG.HAS_TKEEP {1} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.REG_CONFIG {8} \
@@ -564,7 +564,7 @@ proc create_hier_cell_dfx_decouplers { parentCell nameHier } {
   # Create instance: axisreg_m_pr_1_1, and set properties
   set axisreg_m_pr_1_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_register_slice:1.1 axisreg_m_pr_1_1 ]
   set_property -dict [ list \
-   CONFIG.HAS_TKEEP {0} \
+   CONFIG.HAS_TKEEP {1} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.REG_CONFIG {8} \
@@ -575,7 +575,7 @@ proc create_hier_cell_dfx_decouplers { parentCell nameHier } {
   # Create instance: axisreg_m_pr_2_0, and set properties
   set axisreg_m_pr_2_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_register_slice:1.1 axisreg_m_pr_2_0 ]
   set_property -dict [ list \
-   CONFIG.HAS_TKEEP {0} \
+   CONFIG.HAS_TKEEP {1} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.REG_CONFIG {8} \
@@ -586,7 +586,7 @@ proc create_hier_cell_dfx_decouplers { parentCell nameHier } {
   # Create instance: axisreg_m_pr_2_1, and set properties
   set axisreg_m_pr_2_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_register_slice:1.1 axisreg_m_pr_2_1 ]
   set_property -dict [ list \
-   CONFIG.HAS_TKEEP {0} \
+   CONFIG.HAS_TKEEP {1} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.REG_CONFIG {8} \
@@ -765,7 +765,7 @@ proc create_hier_cell_video { parentCell nameHier } {
   # Create instance: axis_dwidth_48_24, and set properties
   set axis_dwidth_48_24 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_dwidth_converter:1.1 axis_dwidth_48_24 ]
   set_property -dict [ list \
-   CONFIG.HAS_TKEEP {0} \
+   CONFIG.HAS_TKEEP {1} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.M_TDATA_NUM_BYTES {3} \
@@ -779,7 +779,7 @@ proc create_hier_cell_video { parentCell nameHier } {
   set axis_dwidth_24_48 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_dwidth_converter:1.1 axis_dwidth_24_48 ]
   set_property -dict [ list \
    CONFIG.HAS_MI_TKEEP {1} \
-   CONFIG.HAS_TKEEP {0} \
+   CONFIG.HAS_TKEEP {1} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.M_TDATA_NUM_BYTES {6} \
@@ -796,6 +796,10 @@ proc create_hier_cell_video { parentCell nameHier } {
    CONFIG.M_TDATA_NUM_BYTES {6} \
    CONFIG.S_TDATA_NUM_BYTES {6} \
    CONFIG.TDATA_REMAP {tdata[47:40],tdata[31:24],tdata[39:32],tdata[23:16],tdata[7:0],tdata[15:8]} \
+   CONFIG.M_HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.S_HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.M_HAS_TKEEP {1} \
+   CONFIG.S_HAS_TKEEP {1} \
  ] $pixel_reorder_s2mm
 
   # Create instance: pixel_reorder_mm2s, and set properties
@@ -804,6 +808,10 @@ proc create_hier_cell_video { parentCell nameHier } {
    CONFIG.M_TDATA_NUM_BYTES {6} \
    CONFIG.S_TDATA_NUM_BYTES {6} \
    CONFIG.TDATA_REMAP {tdata[47:40],tdata[31:24],tdata[39:32],tdata[23:16],tdata[7:0],tdata[15:8]} \
+   CONFIG.M_HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.S_HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.M_HAS_TKEEP {1} \
+   CONFIG.S_HAS_TKEEP {1} \
  ] $pixel_reorder_mm2s
 
   # Create instance: pixel_unpack, and set properties
@@ -918,13 +926,11 @@ proc create_hier_cell_mipi { parentCell nameHier } {
   # Create instance: axis_channel_swap, and set properties
   set axis_channel_swap [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_subset_converter:1.1 axis_channel_swap ]
   set_property -dict [ list \
-   CONFIG.M_HAS_TKEEP {0} \
    CONFIG.M_HAS_TLAST {1} \
    CONFIG.M_HAS_TREADY {1} \
    CONFIG.M_HAS_TSTRB {0} \
    CONFIG.M_TDATA_NUM_BYTES {6} \
    CONFIG.M_TUSER_WIDTH {1} \
-   CONFIG.S_HAS_TKEEP {0} \
    CONFIG.S_HAS_TLAST {1} \
    CONFIG.S_HAS_TREADY {1} \
    CONFIG.S_HAS_TSTRB {0} \
@@ -933,13 +939,16 @@ proc create_hier_cell_mipi { parentCell nameHier } {
    CONFIG.TDATA_REMAP {tdata[39:24], tdata[47:40], tdata[15:0], tdata[23:16]} \
    CONFIG.TLAST_REMAP {tlast[0]} \
    CONFIG.TUSER_REMAP {tuser[0:0]} \
+   CONFIG.M_HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.S_HAS_TKEEP.VALUE_SRC USER
+   CONFIG.M_HAS_TKEEP {1} \
+   CONFIG.S_HAS_TKEEP {1} \
  ] $axis_channel_swap
 
   # Create instance: axis_dwidth_24_48, and set properties
   set axis_dwidth_24_48 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_dwidth_converter:1.1 axis_dwidth_24_48 ]
   set_property -dict [ list \
    CONFIG.HAS_MI_TKEEP {1} \
-   CONFIG.HAS_TKEEP {0} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.M_TDATA_NUM_BYTES {6} \
@@ -947,12 +956,13 @@ proc create_hier_cell_mipi { parentCell nameHier } {
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
    CONFIG.TUSER_BITS_PER_BYTE {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_dwidth_24_48
 
   # Create instance: axis_dwidth_48_24, and set properties
   set axis_dwidth_48_24 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_dwidth_converter:1.1 axis_dwidth_48_24 ]
   set_property -dict [ list \
-   CONFIG.HAS_TKEEP {0} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.M_TDATA_NUM_BYTES {3} \
@@ -960,6 +970,8 @@ proc create_hier_cell_mipi { parentCell nameHier } {
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
    CONFIG.TUSER_BITS_PER_BYTE {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_dwidth_48_24
 
   # Create instance: axis_subset_converter, and set properties
@@ -977,6 +989,11 @@ proc create_hier_cell_mipi { parentCell nameHier } {
    CONFIG.TDEST_REMAP {tdest[9:0]} \
    CONFIG.TLAST_REMAP {tlast[0]} \
    CONFIG.TUSER_REMAP {tuser[0:0]} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.M_HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.S_HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.M_HAS_TKEEP {1} \
+   CONFIG.S_HAS_TKEEP {1} \
  ] $axis_subset_converter
 
   # Create instance: demosaic, and set properties
@@ -1153,12 +1170,15 @@ proc create_hier_cell_composable { parentCell nameHier } {
   set_property -dict [ list \
    CONFIG.FIFO_DEPTH {16384} \
    CONFIG.FIFO_MEMORY_TYPE {ultra} \
-   CONFIG.HAS_TKEEP {0} \
-   CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.TDATA_NUM_BYTES {6} \
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
+   CONFIG.HAS_TLAST.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.TUSER_WIDTH.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
    CONFIG.TUSER_WIDTH {6} \
  ] $axis_data_fifo_branch_0
 
@@ -1167,12 +1187,15 @@ proc create_hier_cell_composable { parentCell nameHier } {
   set_property -dict [ list \
    CONFIG.FIFO_DEPTH {16384} \
    CONFIG.FIFO_MEMORY_TYPE {ultra} \
-   CONFIG.HAS_TKEEP {0} \
-   CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.TDATA_NUM_BYTES {6} \
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
+   CONFIG.HAS_TLAST.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.TUSER_WIDTH.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
    CONFIG.TUSER_WIDTH {6} \
  ] $axis_data_fifo_branch_1
 
@@ -1180,32 +1203,32 @@ proc create_hier_cell_composable { parentCell nameHier } {
   set axis_downconv_branch_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_dwidth_converter:1.1 axis_downconv_branch_0 ]
   set_property -dict [ list \
    CONFIG.HAS_MI_TKEEP {0} \
-   CONFIG.HAS_TKEEP {0} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.M_TDATA_NUM_BYTES {3} \
    CONFIG.S_TDATA_NUM_BYTES {6} \
    CONFIG.TUSER_BITS_PER_BYTE {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_downconv_branch_0
 
   # Create instance: axis_downconv_branch_1, and set properties
   set axis_downconv_branch_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_dwidth_converter:1.1 axis_downconv_branch_1 ]
   set_property -dict [ list \
    CONFIG.HAS_MI_TKEEP {0} \
-   CONFIG.HAS_TKEEP {0} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.M_TDATA_NUM_BYTES {3} \
    CONFIG.S_TDATA_NUM_BYTES {6} \
    CONFIG.TUSER_BITS_PER_BYTE {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_downconv_branch_1
 
   # Create instance: axis_switch, and set properties
   set axis_switch [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_switch:1.1 axis_switch ]
   set_property -dict [ list \
    CONFIG.DECODER_REG {1} \
-   CONFIG.HAS_TKEEP {0} \
-   CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TREADY {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.NUM_MI {15} \
@@ -1214,33 +1237,38 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.TDATA_NUM_BYTES {3} \
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
-   CONFIG.TUSER_WIDTH {1} \
-   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.TUSER_WIDTH.VALUE_SRC USER \
+   CONFIG.HAS_TLAST.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER
    CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
+   CONFIG.TUSER_WIDTH {1} \
  ] $axis_switch
 
   # Create instance: axis_upconv_branch_0, and set properties
   set axis_upconv_branch_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_dwidth_converter:1.1 axis_upconv_branch_0 ]
   set_property -dict [ list \
    CONFIG.HAS_MI_TKEEP {1} \
-   CONFIG.HAS_TKEEP {0} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.M_TDATA_NUM_BYTES {6} \
    CONFIG.S_TDATA_NUM_BYTES {3} \
    CONFIG.TUSER_BITS_PER_BYTE {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_upconv_branch_0
 
   # Create instance: axis_upconv_branch_1, and set properties
   set axis_upconv_branch_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_dwidth_converter:1.1 axis_upconv_branch_1 ]
   set_property -dict [ list \
    CONFIG.HAS_MI_TKEEP {1} \
-   CONFIG.HAS_TKEEP {0} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.M_TDATA_NUM_BYTES {6} \
    CONFIG.S_TDATA_NUM_BYTES {3} \
    CONFIG.TUSER_BITS_PER_BYTE {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_upconv_branch_1
 
   # Create instance: colorthresholding_accel, and set properties
@@ -2177,7 +2205,7 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net axi_interconnect_M08_AXI [get_bd_intf_pins main_axi_interconnect/M06_AXI] [get_bd_intf_pins shutdown_HP1_FPD/S_AXI_CTRL]
   connect_bd_intf_net -intf_net axi_interconnect_M03_AXI [get_bd_intf_pins main_axi_interconnect/M03_AXI] [get_bd_intf_pins shutdown_HP0_FPD/S_AXI_CTRL]
   connect_bd_intf_net -intf_net axi_interconnect_M04_AXI [get_bd_intf_pins main_axi_interconnect/M04_AXI] [get_bd_intf_pins composable/S00_AXI]
-  connect_bd_intf_net -intf_net axi_interconnect_M07_AXI [get_bd_intf_pins main_axi_interconnect/M07_AXI] [get_bd_intf_pins axi_iic/S_AXI] 
+  connect_bd_intf_net -intf_net axi_interconnect_M07_AXI [get_bd_intf_pins main_axi_interconnect/M07_AXI] [get_bd_intf_pins axi_iic/S_AXI]
   connect_bd_intf_net -intf_net video_m_axi_s2mm [get_bd_intf_pins video/M_AXI_S2MM] [get_bd_intf_pins shutdown_HP2_FPD/S_AXI]
   connect_bd_intf_net -intf_net mipi_m_axi_s2mm [get_bd_intf_pins mipi/M_AXI_S2MM] [get_bd_intf_pins shutdown_HP1_FPD/S_AXI]
   connect_bd_intf_net -intf_net video_m_axi_mm2s [get_bd_intf_pins video/M_AXI_MM2S] [get_bd_intf_pins shutdown_HP0_FPD/S_AXI]
@@ -2258,7 +2286,7 @@ proc create_root_design { parentCell } {
 
   # Create PFM attributes
   set_property PFM_NAME {xilinx.com:xd:${design_name}:1.0} [get_files [current_bd_design].bd]
-  set_property PFM.AXI_PORT {  M_AXI_HPM0_FPD {memport "M_AXI_GP"}  M_AXI_HPM0_LPD {memport "M_AXI_GP"}  S_AXI_HPC0_FPD {memport "S_AXI_HPC"}  S_AXI_HPC1_FPD {memport "S_AXI_HPC"}  S_AXI_HP0_FPD {memport "S_AXI_HP"}  S_AXI_HP1_FPD {memport "S_AXI_HP"}  S_AXI_HP2_FPD {memport "S_AXI_HP"}  S_AXI_HP3_FPD {memport "S_AXI_HP"}  
+  set_property PFM.AXI_PORT {  M_AXI_HPM0_FPD {memport "M_AXI_GP"}  M_AXI_HPM0_LPD {memport "M_AXI_GP"}  S_AXI_HPC0_FPD {memport "S_AXI_HPC"}  S_AXI_HPC1_FPD {memport "S_AXI_HPC"}  S_AXI_HP0_FPD {memport "S_AXI_HP"}  S_AXI_HP1_FPD {memport "S_AXI_HP"}  S_AXI_HP2_FPD {memport "S_AXI_HP"}  S_AXI_HP3_FPD {memport "S_AXI_HP"}
     S_AXI_LPD {memport "S_AXI_HP"}  } [get_bd_cells /ps_e]
   set_property PFM.CLOCK {  pl_clk0 {id "0" is_default "true"  proc_sys_reset "proc_sys_reset_plclk0" status "fixed"}  pl_clk1 {id "1" is_default "false"  proc_sys_reset "proc_sys_reset_plclk1" status "fixed"} } [get_bd_cells /ps_e]
   set_property PFM.IRQ {In1 {} In2 {} In3 {} In4 {} In5 {} In6 {} In7 {}} [get_bd_cells /xlconcat_int]
