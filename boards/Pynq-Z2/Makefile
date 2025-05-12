@@ -1,4 +1,5 @@
 # Copyright (C) 2022 Xilinx, Inc
+# Copyright (C) 2023-2025 Advanced Micro Devices, Inc.
 #
 # SPDX-License-Identifier: BSD-3-Clause
 
@@ -26,7 +27,7 @@ clean:
 	rm -rf *.jou *.log NA *.str .Xil/
 
 distclean: clean
-	rm -rf $(overlay_name) *.zip
+	rm -rf $(overlay_name) *.zip hd_visual
 
 version:
 	@echo "board = $$(basename "$(PWD)")" > overlay/version.txt

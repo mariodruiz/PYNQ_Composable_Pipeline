@@ -1,5 +1,6 @@
 ###############################################################################
-# Copyright (C) 2021-2025 Xilinx, Inc
+# Copyright (C) 2021-2022 Xilinx, Inc
+# Copyright (C) 2023-2025 Advanced Micro Devices, Inc.
 # SPDX-License-Identifier: BSD-3-Clause
 ###############################################################################
 ###############################################################################
@@ -1214,6 +1215,8 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.TDEST_WIDTH {0} \
    CONFIG.TID_WIDTH {0} \
    CONFIG.TUSER_WIDTH {1} \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP {1} \
  ] $axis_switch
 
   # Create instance: axis_upconv_branch_0, and set properties

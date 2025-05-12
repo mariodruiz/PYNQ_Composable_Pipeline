@@ -1,4 +1,5 @@
-# Copyright (C) 2022-2025 Xilinx, Inc
+# Copyright (C) 2022 Xilinx, Inc
+# Copyright (C) 2023-2025 Advanced Micro Devices, Inc.
 #
 # SPDX-License-Identifier: BSD-3-Clause
 
@@ -7,7 +8,7 @@
 #
 # @file cv_dfx_3_pr.tcl
 #
-# Vivado tcl script to generate composable pipeline full and partial bitstreams 
+# Vivado tcl script to generate composable pipeline full and partial bitstreams
 # for Pynq-ZU board
 #
 # <pre>
@@ -21,7 +22,7 @@
 #
 # 1.20  mr   4/9/2021 Add DFX regions and reconfigurable modules
 #
-# 1.30  mr   4/21/2021 Move color thresholding to the static region, and rgb2xyz to the 
+# 1.30  mr   4/21/2021 Move color thresholding to the static region, and rgb2xyz to the
 #                      pr_fork. Additionally add bitwise-and on pr_join
 #                      Add logic for soft reset to flush pipeline. Set FIFO size to 16384
 #                      for both input path to the pr_join hierarchy
@@ -165,7 +166,7 @@ if { ${design_name} eq "" } {
    set errMsg "Design <$design_name> already exists in your project, please set the variable <design_name> to another value."
    set nRet 1
 } elseif { [get_files -quiet ${design_name}.bd] ne "" } {
-   # USE CASES: 
+   # USE CASES:
    #    6) Current opened design, has components, but diff names, design_name exists in project.
    #    7) No opened design, design_name exists in project.
 
@@ -199,7 +200,7 @@ set bCheckIPsPassed 1
 ##################################################################
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
-   set list_check_ips "\ 
+   set list_check_ips "\
 xilinx.com:ip:axi_iic:2.1\
 xilinx.com:ip:axi_intc:4.1\
 xilinx.com:ip:axi_gpio:2.0\
@@ -545,8 +546,11 @@ proc create_hier_cell_hdmi_out { parentCell nameHier } {
   # Create instance: tx_video_axis_reg_slice, and set properties
   set tx_video_axis_reg_slice [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_register_slice:1.1 tx_video_axis_reg_slice ]
   set_property -dict [ list \
+   CONFIG.TUSER_WIDTH.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TLAST.VALUE_SRC USER \
    CONFIG.REG_CONFIG {8} \
-   CONFIG.HAS_TKEEP {0} \
+   CONFIG.HAS_TKEEP {1} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.HAS_TSTRB {0} \
    CONFIG.TUSER_WIDTH {1} \
@@ -719,7 +723,13 @@ proc create_hier_cell_hdmi_in { parentCell nameHier } {
   # Create instance: rx_video_axis_reg_slice, and set properties
   set rx_video_axis_reg_slice [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_register_slice:1.1 rx_video_axis_reg_slice ]
   set_property -dict [ list \
+   CONFIG.TUSER_WIDTH.VALUE_SRC USER \
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
+   CONFIG.HAS_TLAST.VALUE_SRC USER \
    CONFIG.REG_CONFIG {8} \
+   CONFIG.TUSER_WIDTH {1} \
+   CONFIG.HAS_TKEEP {1} \
+   CONFIG.HAS_TLAST {1} \
  ] $rx_video_axis_reg_slice
 
   # Create interface connections
@@ -3031,7 +3041,7 @@ proc create_root_design { parentCell } {
 
   # Create PFM attributes
   set_property PFM_NAME {xilinx.com:xd:${design_name}:1.0} [get_files [current_bd_design].bd]
-  set_property PFM.AXI_PORT {  M_AXI_HPM0_FPD {memport "M_AXI_GP"}  M_AXI_HPM0_LPD {memport "M_AXI_GP"}  S_AXI_HPC0_FPD {memport "S_AXI_HPC"}  S_AXI_HPC1_FPD {memport "S_AXI_HPC"}  S_AXI_HP0_FPD {memport "S_AXI_HP"}  S_AXI_HP1_FPD {memport "S_AXI_HP"}  S_AXI_HP2_FPD {memport "S_AXI_HP"}  S_AXI_HP3_FPD {memport "S_AXI_HP"}  
+  set_property PFM.AXI_PORT {  M_AXI_HPM0_FPD {memport "M_AXI_GP"}  M_AXI_HPM0_LPD {memport "M_AXI_GP"}  S_AXI_HPC0_FPD {memport "S_AXI_HPC"}  S_AXI_HPC1_FPD {memport "S_AXI_HPC"}  S_AXI_HP0_FPD {memport "S_AXI_HP"}  S_AXI_HP1_FPD {memport "S_AXI_HP"}  S_AXI_HP2_FPD {memport "S_AXI_HP"}  S_AXI_HP3_FPD {memport "S_AXI_HP"}
     S_AXI_LPD {memport "S_AXI_HP"}  } [get_bd_cells /ps_e]
   set_property PFM.CLOCK {  pl_clk0 {id "0" is_default "true"  proc_sys_reset "proc_sys_reset_plclk0" status "fixed"}  pl_clk1 {id "1" is_default "false"  proc_sys_reset "proc_sys_reset_plclk1" status "fixed"}  pl_clk2 {id "2" is_default "false"  proc_sys_reset "proc_sys_reset_plclk2" status "fixed"}  pl_clk3 {id "3" is_default "false"  proc_sys_reset "proc_sys_reset_3" status "fixed"}  } [get_bd_cells /ps_e]
   set_property PFM.IRQ {In1 {} In2 {} In3 {} In4 {} In5 {} In6 {} In7 {}} [get_bd_cells /xlconcat_int]
