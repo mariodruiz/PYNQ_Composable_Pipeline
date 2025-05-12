@@ -11,9 +11,9 @@ HLS_PROJECTS = $(addsuffix  .vhlsprj, $(SRC_DIRS))
 
 all: submodule $(HLS_PROJECTS)
 
-DEVICE ?= zynq
-FREQ ?= 156.25
-FPGAPART ?= xc7z020clg400-1
+DEVICE := zynq
+FREQ := 156.25
+FPGAPART := xc7z020clg400-1
 DEVICE_MACRO := _ZYNQ_
 VITIS_LIB_INCLUDE = $(shell readlink -f ../../../../Vitis_Libraries/vision/L1/include/)
 
@@ -22,9 +22,9 @@ submodule:
 	cd ../../../../ && git submodule init && git submodule update
 
 ifeq ($(DEVICE),zynq-us)
-	FPGAPART = xczu5eg-sfvc784-1-e
-	FREQ = 300
-	DEVICE_MACRO = _ZYNQ_US_
+FPGAPART = xczu5eg-sfvc784-1-e
+FREQ = 300
+DEVICE_MACRO = _ZYNQ_US_
 endif
 
 %.vhlsprj:
