@@ -437,8 +437,8 @@ class OpenCVDPVideo(OpenCVPLVideo):
             video filename
         mode : VideoMode
             webcam configuration
-        vdma : pynq.lib.video.dma.AxiVDMA
-            Xilinx VideoDMA IP core
+        mode : VideoMode (optional)
+            video configuration
         """
 
         if not isinstance(filename, str) and not isinstance(filename, int):
@@ -534,8 +534,12 @@ class VideoStream:
         ----------
         ol : pynq.Overlay
             Overlay object
-        source : str (optional)
-            Input video source. Valid values [VSource.HDMI, VSource.MIPI]
+        source : VSource (optional)
+            Input video source. Valid values [VSource.HDMI, VSource.MIPI, VSource.OpenCV, VSource.File]
+        sink : VSink (optional)
+            Output video sink. Valid values [VSink.HDMI, VSink.DP, VSink.File]
+        mode : VideoMode (optional)
+            video configuration
         """
 
         if not mode:
