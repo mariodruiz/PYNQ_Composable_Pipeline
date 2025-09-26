@@ -521,7 +521,7 @@ class VideoStream:
     """VideoStream class
 
     Handles various video input and output paths
-    .start: configures video source and sink, starts them and ties them together
+    .start: configures video source and sink, starts and ties them together
     .stop: closes video source and sink
 
     """
@@ -537,7 +537,8 @@ class VideoStream:
         ol : pynq.Overlay
             Overlay object
         source : VSource (optional)
-            Input video source. Valid values [VSource.HDMI, VSource.MIPI, VSource.OpenCV, VSource.File]
+            Input video source. Valid values [VSource.HDMI, VSource.MIPI,
+                                              VSource.OpenCV, VSource.File]
         sink : VSink (optional)
             Output video sink. Valid values [VSink.HDMI, VSink.DP, VSink.File]
         file : int (optional)
