@@ -92,8 +92,8 @@ class PLPLVideo:
             Input video source. Valid values [VSource.HDMI, VSource.MIPI]
         """
 
-        vsourceources = [VSource.HDMI, VSource.MIPI]
-        if source not in vsourceources:
+        vsources = [VSource.HDMI, VSource.MIPI]
+        if source not in vsources:
             raise ValueError("{} is not supported".format(source))
         elif ol.device.name != 'Pynq-ZU' and source != VSource.HDMI:
             raise ValueError("Device {} only supports {} as input source "
@@ -186,8 +186,8 @@ class PLDPVideo:
             Input video source. Valid values [VSource.HDMI, VSource.MIPI]
         """
 
-        vsourceources = [VSource.HDMI, VSource.MIPI]
-        if source not in vsourceources:
+        vsources = [VSource.HDMI, VSource.MIPI]
+        if source not in vsources:
             raise ValueError("{} is not supported".format(source))
 
         if CPU_ARCH != ZU_ARCH:
@@ -207,7 +207,7 @@ class PLDPVideo:
             self._source_in = ol.mipi
 
     def start(self):
-        """Configure and start the HDMI"""
+        """Configure and start the video source"""
         if not self._started:
             if self._source == VSource.HDMI:
                 self._source_in.configure()
@@ -227,7 +227,7 @@ class PLDPVideo:
             self._pause = None
 
     def stop(self):
-        """Stop the HDMI"""
+        """Stop the video stream"""
         if self._started:
             self._running = False
             while self._thread.is_alive():
@@ -286,6 +286,8 @@ class OpenCVPLVideo:
 
         Parameters
         ----------
+        ol : pynq.Overlay
+            Overlay object
         filename : [int, str]
             video filename
 
@@ -433,10 +435,10 @@ class OpenCVDPVideo(OpenCVPLVideo):
 
         Parameters
         ----------
+        ol : pynq.Overlay
+            Overlay object
         filename : [int, str]
             video filename
-        mode : VideoMode
-            webcam configuration
         mode : VideoMode (optional)
             video configuration
         """
@@ -518,9 +520,9 @@ class OpenCVDPVideo(OpenCVPLVideo):
 class VideoStream:
     """VideoStream class
 
-    Handles DisplayPort output paths
-    .start: configures hdmi_in and hdmi_out starts them and tie them together
-    .stop: closes hdmi_in and hdmi_out
+    Handles various video input and output paths
+    .start: configures video source and sink, starts them and ties them together
+    .stop: closes video source and sink
 
     """
     _fres = "/tmp/resolution.json"
@@ -528,7 +530,7 @@ class VideoStream:
     def __init__(self, ol: Overlay, source: VSource = VSource.HDMI,
                  sink: VSink = VSink.HDMI, file: int = 0,
                  mode: VideoMode = None):
-        """Return a HDMIVideo object to handle the video path
+        """Return a VideoStream object to handle the video path
 
         Parameters
         ----------
@@ -538,6 +540,8 @@ class VideoStream:
             Input video source. Valid values [VSource.HDMI, VSource.MIPI, VSource.OpenCV, VSource.File]
         sink : VSink (optional)
             Output video sink. Valid values [VSink.HDMI, VSink.DP, VSink.File]
+        file : int (optional)
+            File path or camera index for OpenCV sources. Default is 0.
         mode : VideoMode (optional)
             video configuration
         """
