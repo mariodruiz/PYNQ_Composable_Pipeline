@@ -28,7 +28,7 @@ jobs:
         pip install flake8 pyfakefs pytest coverage codecov ipywidgets graphviz numpy cffi opencv-python deepdiff
         pip install git+https://github.com/Xilinx/PYNQ-Metadata
         pip install git+https://github.com/Xilinx/PYNQ-Utils
-        pip install pynq
+        pip install pynq==3.0.1
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
