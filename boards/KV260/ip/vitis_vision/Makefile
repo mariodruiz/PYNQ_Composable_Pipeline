@@ -25,6 +25,10 @@ ifeq ($(DEVICE),zynq-us)
 FPGAPART = xczu5eg-sfvc784-1-e
 FREQ = 300
 DEVICE_MACRO = _ZYNQ_US_
+else ifeq ($(DEVICE),zynq-us-no-uram)
+FPGAPART = xczu3eg-sfvc784-2-e
+FREQ = 300
+DEVICE_MACRO = _ZYNQ_US_NO_URAM_
 endif
 
 %.vhlsprj:
