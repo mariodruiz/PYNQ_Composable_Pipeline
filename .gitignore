@@ -21,3 +21,6 @@ hd_visual/
 tests/files/composable_test.pkl
 tests/files/composable_test_composable.pkl
 tests/graph_output/
+boards/AUP-ZU3/ip/vitis_vision/*.cfg
+boards/KV260/ip/vitis_vision/*.cfg
+boards/PYNQ-Z2/ip/vitis_vision/*.cfg

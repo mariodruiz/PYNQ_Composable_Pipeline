@@ -940,7 +940,7 @@ proc create_hier_cell_mipi { parentCell nameHier } {
    CONFIG.TLAST_REMAP {tlast[0]} \
    CONFIG.TUSER_REMAP {tuser[0:0]} \
    CONFIG.M_HAS_TKEEP.VALUE_SRC USER \
-   CONFIG.S_HAS_TKEEP.VALUE_SRC USER
+   CONFIG.S_HAS_TKEEP.VALUE_SRC USER \
    CONFIG.M_HAS_TKEEP {1} \
    CONFIG.S_HAS_TKEEP {1} \
  ] $axis_channel_swap
@@ -1239,7 +1239,7 @@ proc create_hier_cell_composable { parentCell nameHier } {
    CONFIG.TID_WIDTH {0} \
    CONFIG.TUSER_WIDTH.VALUE_SRC USER \
    CONFIG.HAS_TLAST.VALUE_SRC USER \
-   CONFIG.HAS_TKEEP.VALUE_SRC USER
+   CONFIG.HAS_TKEEP.VALUE_SRC USER \
    CONFIG.HAS_TKEEP {1} \
    CONFIG.HAS_TLAST {1} \
    CONFIG.TUSER_WIDTH {1} \
